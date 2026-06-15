@@ -1,0 +1,149 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --dw-bg: #faf8f6;
+  --dw-fg: #232220;
+  --dw-card: #f3efeb;
+  --dw-tray: #e9e1da;
+  --dw-gray: #6e6b66;
+}
+
+html,
+body {
+  background-color: var(--dw-bg);
+  color: var(--dw-fg);
+  font-family: var(--font-figtree), sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Hide scrollbar while keeping scroll behavior */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Outer container caps the page at 1280px on large screens.
+   Full-bleed background, content centered within the cap. */
+.dw-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Mobile-first column. Mobile keeps the 430px phone width.
+   Tablet/desktop expand to fill the 1280px container so content can
+   spread out into wider layouts (multi-column, larger hero, etc.). */
+.phone-shell {
+  max-width: 430px;
+  margin: 0 auto;
+  position: relative;
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .phone-shell {
+    max-width: 768px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .phone-shell {
+    max-width: 1280px;
+  }
+}
+
+/* Utility: bottom padding that respects the iOS home-indicator area.
+   Tight by default — sits close to the browser chrome but never under it. */
+.pb-safe {
+  padding-bottom: max(0.75rem, calc(0.5rem + env(safe-area-inset-bottom)));
+}
+
+/* Vertical font-size slider for the text modal (Instagram-style). */
+.font-size-slider {
+  appearance: none;
+  -webkit-appearance: none;
+  writing-mode: vertical-lr;
+  direction: rtl;
+  width: 28px;
+  height: 100%;
+  background: transparent;
+  cursor: pointer;
+}
+.font-size-slider::-webkit-slider-runnable-track {
+  width: 3px;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.45);
+  border-radius: 9999px;
+}
+.font-size-slider::-moz-range-track {
+  width: 3px;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.45);
+  border-radius: 9999px;
+}
+.font-size-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 9999px;
+  background: #ffffff;
+  border: none;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  margin-left: -7px;
+}
+.font-size-slider::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 9999px;
+  background: #ffffff;
+  border: none;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+/* Light-bg variant of the vertical font-size slider — used by the
+   desktop inline text editor that sits on top of the canvas. */
+.font-size-slider-light {
+  appearance: none;
+  -webkit-appearance: none;
+  writing-mode: vertical-lr;
+  direction: rtl;
+  width: 28px;
+  height: 100%;
+  background: transparent;
+  cursor: pointer;
+}
+.font-size-slider-light::-webkit-slider-runnable-track {
+  width: 3px;
+  height: 100%;
+  background: rgba(35, 34, 32, 0.35);
+  border-radius: 9999px;
+}
+.font-size-slider-light::-moz-range-track {
+  width: 3px;
+  height: 100%;
+  background: rgba(35, 34, 32, 0.35);
+  border-radius: 9999px;
+}
+.font-size-slider-light::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 9999px;
+  background: #232220;
+  border: none;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+  margin-left: -7px;
+}
+.font-size-slider-light::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 9999px;
+  background: #232220;
+  border: none;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+}
