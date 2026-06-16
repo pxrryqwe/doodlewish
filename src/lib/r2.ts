@@ -12,13 +12,10 @@ const secretAccessKey = process.env.R2_SECRET_ACCESS_KEY;
 const bucket = process.env.R2_BUCKET;
 const publicBase = process.env.R2_PUBLIC_BASE_URL;
 
-if (!accountId || !accessKeyId || !secretAccessKey || !bucket || !publicBase) {
-  // Don't throw at import time — the diag route surfaces the missing config
-  // and individual handlers throw on first use so dev doesn't crash.
-  if (process.env.NODE_ENV === "production") {
-    throw new Error("R2 env vars missing (R2_ACCOUNT_ID / ACCESS_KEY / SECRET / BUCKET / PUBLIC_BASE_URL)");
-  }
-}
+// Don't throw at import time. Next.js evaluates this module during the
+// `next build` step (NODE_ENV=production) BEFORE env vars are wired into
+// the request handler — throwing here would fail the entire build. The
+// individual handlers below crash on first use if config is missing.
 
 let _client: S3Client | null = null;
 function client() {
