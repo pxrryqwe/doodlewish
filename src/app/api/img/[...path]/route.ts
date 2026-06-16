@@ -26,7 +26,11 @@ export async function GET(
     }
     const obj = await getObject(key);
     if (!obj) return new NextResponse("Not found", { status: 404 });
-    return new NextResponse(obj.body, {
+    // Wrap the Uint8Array in a fresh ArrayBuffer slice — NextResponse
+    // body types tightened in recent versions and no longer accept the
+    // raw SDK-returned view directly.
+    const body = obj.body.slice().buffer as ArrayBuffer;
+    return new NextResponse(body, {
       status: 200,
       headers: {
         "Content-Type": obj.contentType ?? "image/png",

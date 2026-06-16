@@ -30,7 +30,7 @@ const SECURITY_HEADERS: Record<string, string> = {
   "Content-Security-Policy": csp(),
 };
 
-export function middleware(req: NextRequest) {
+export function proxy(req: NextRequest) {
   // Admin guard: anything under /admin (except /admin/login) needs a session cookie.
   const { pathname } = req.nextUrl;
   if (pathname.startsWith("/admin") && pathname !== "/admin/login") {
