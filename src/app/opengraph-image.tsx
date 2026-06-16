@@ -7,16 +7,21 @@ export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
 export default async function OgImage() {
-  // Inline the star illustration as a base64 PNG so `next/og` doesn't try
-  // to download a dynamic font for the ★ glyph — that download has been
-  // 400ing during build / on cold starts.
-  let starSrc: string | null = null;
-  try {
-    const buf = await readFile(
-      path.join(process.cwd(), "public", "star.png")
-    );
-    starSrc = `data:image/png;base64,${buf.toString("base64")}`;
-  } catch {}
+  // Inline assets as base64 data URLs so `next/og` doesn't need to fetch
+  // anything at render time (the old ★ glyph kept triggering a 400 on the
+  // dynamic-font download path).
+  async function inline(file: string): Promise<string | null> {
+    try {
+      const buf = await readFile(path.join(process.cwd(), "public", file));
+      return `data:image/png;base64,${buf.toString("base64")}`;
+    } catch {
+      return null;
+    }
+  }
+  const [cakeSrc, starSrc] = await Promise.all([
+    inline("birthday-cake.png"),
+    inline("star.png"),
+  ]);
 
   return new ImageResponse(
     (
@@ -27,39 +32,69 @@ export default async function OgImage() {
           background: "#faf8f6",
           color: "#232220",
           display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          padding: 80,
+          alignItems: "center",
+          padding: 64,
         }}
       >
-        <div style={{ fontSize: 32, fontWeight: 500 }}>
-          Wishes you can scribble together.
-        </div>
+        {/* Left: brand wordmark */}
         <div
           style={{
-            fontSize: 180,
-            fontWeight: 900,
-            lineHeight: 0.95,
-            marginTop: 24,
             display: "flex",
-            alignItems: "center",
+            flexDirection: "column",
+            flex: 1,
           }}
         >
-          <div style={{ display: "flex", flexDirection: "column" }}>
-            <span>Doodle</span>
-            <span>Wish.</span>
+          <div style={{ fontSize: 30, fontWeight: 500 }}>
+            Wishes you can scribble together.
           </div>
-          {starSrc && (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={starSrc}
-              alt=""
-              width={200}
-              height={200}
-              style={{ marginLeft: 36 }}
-            />
-          )}
+          <div
+            style={{
+              fontSize: 150,
+              fontWeight: 900,
+              lineHeight: 0.95,
+              marginTop: 20,
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              <span>Doodle</span>
+              <span>Wish.</span>
+            </div>
+            {starSrc && (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={starSrc}
+                alt=""
+                width={140}
+                height={140}
+                style={{ marginLeft: 28 }}
+              />
+            )}
+          </div>
         </div>
+
+        {/* Right: birthday cake illustration */}
+        {cakeSrc && (
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              width: 480,
+              height: 480,
+            }}
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={cakeSrc}
+              alt=""
+              width={480}
+              height={480}
+              style={{ objectFit: "contain" }}
+            />
+          </div>
+        )}
       </div>
     ),
     { ...size }
