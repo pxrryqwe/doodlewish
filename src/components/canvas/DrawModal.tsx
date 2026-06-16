@@ -159,8 +159,12 @@ export default function DrawModal({ onDone, onCancel }: Props) {
 
   function undo() {
     if (historyRef.current.length <= 1) return;
-    historyRef.current.pop();
-    const last = historyRef.current[historyRef.current.length - 1];
+    // `pushHistory()` runs at the START of each stroke, so the value at
+    // the top of the stack IS the pre-stroke snapshot we want to restore
+    // to. Use the popped value directly — the previous bug was reading
+    // `[length - 1]` AFTER the pop, which skipped the saved snapshot and
+    // jumped two strokes back (looking like everything got cleared).
+    const last = historyRef.current.pop();
     const ctx = canvasRef.current?.getContext("2d");
     if (!ctx || !last) return;
     ctx.putImageData(last, 0, 0);

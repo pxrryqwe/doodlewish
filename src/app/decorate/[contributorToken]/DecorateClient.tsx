@@ -230,9 +230,14 @@ export default function DecoratePage() {
     );
   }
 
+  // Only the first contributor (the gift creator on their first commit)
+  // is allowed to pick the cake template — afterwards everyone builds
+  // on top of the previous frame, so swapping templates mid-stream
+  // would wipe their decorations and reset the gift's stored template.
+  const isFirstContributor = frameCount === 0;
   const mergedStickers = [
     ...customStickers,
-    ...CAKE_TEMPLATE_STICKERS,
+    ...(isFirstContributor ? CAKE_TEMPLATE_STICKERS : []),
     ...stickers,
   ];
 
