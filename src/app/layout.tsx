@@ -7,6 +7,7 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
+  themeColor: "#faf8f6",
 };
 
 const figtree = Figtree({
@@ -61,6 +62,12 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "DoodleWish" }],
   formatDetection: { telephone: false },
+  manifest: "/manifest.webmanifest",
+  appleWebApp: {
+    capable: true,
+    title: "DoodleWish",
+    statusBarStyle: "default",
+  },
   openGraph: {
     type: "website",
     siteName: "DoodleWish",
