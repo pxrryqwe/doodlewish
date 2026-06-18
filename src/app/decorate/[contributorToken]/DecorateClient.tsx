@@ -292,7 +292,10 @@ export default function DecoratePage() {
             return false;
           }}
         />
-        <div className="bg-dw-tray px-5 pb-8 pt-2 lg:hidden">
+        <div
+          className="bg-dw-tray px-5 pt-2 lg:hidden"
+          style={{ paddingBottom: "max(2rem, calc(env(safe-area-inset-bottom) + 0.75rem))" }}
+        >
           <PrimaryButton onClick={() => canvasRef.current?.commit()} disabled={committing}>
             {committing ? "Saving…" : "Done & Save your frame"}
           </PrimaryButton>
@@ -301,7 +304,7 @@ export default function DecoratePage() {
 
       {/* Right column on desktop: title + canvas + done button.
           Height matches the sidebar so canvas + done button = sticker tray height. */}
-      <div className="order-1 lg:order-2 flex flex-col lg:flex-1 lg:min-w-0 lg:h-[calc(100dvh-3rem)]">
+      <div className="order-1 lg:order-2 flex flex-col flex-1 min-h-0 lg:flex-1 lg:min-w-0 lg:h-[calc(100dvh-3rem)]">
         {/* Title — mobile only (desktop title sits above the sticker tray) */}
         <div className="px-5 pt-4 pb-2 lg:hidden">
           <p className="font-semibold text-[16px] text-dw-fg text-center">
