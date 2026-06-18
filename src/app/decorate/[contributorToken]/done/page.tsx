@@ -101,15 +101,13 @@ export default function DonePage() {
         <OutlineButton onClick={sendToRecipient} disabled={!dashboardToken}>
           Send gift to {recipientName}
         </OutlineButton>
-        {!isOwner && (
-          <button
-            type="button"
-            onClick={() => router.push("/")}
-            className="text-[14px] font-semibold text-dw-gray text-center mt-1 cursor-pointer"
-          >
-            Create a new gift
-          </button>
-        )}
+        <button
+          type="button"
+          onClick={() => router.push("/")}
+          className="text-[13px] font-medium text-dw-gray text-center mt-1 cursor-pointer underline underline-offset-4"
+        >
+          Back to home
+        </button>
       </div>
     </main>
   );
